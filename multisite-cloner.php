@@ -19,10 +19,10 @@ class WP_CLI_Clone_Command {
     *
     * ## OPTIONS
     *
-    * <source ID>
+    * <source_ID>
     * : Source site ID
     *
-    * <target ID>
+    * <target_ID>
     * : Target site ID
     */
     
