@@ -16,9 +16,12 @@ class WP_CLI_Clone_Command {
 
     public function __invoke( $args, $assoc_args ) {
         
+        if ( ! is_multisite() ) {
+            WP_CLI::error( 'This is not a multisite installation.' );
+        }
+        
         if ( count( $args ) !== 2 || ! ctype_digit( $args[0] ) || ! ctype_digit( $args[1] ) ) {
             WP_CLI::error( 'Please provide two integer arguments.' );
-            return;
         }        
 
         global $wpdb;
@@ -33,7 +36,6 @@ class WP_CLI_Clone_Command {
         
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
-            return;
         }
 
         $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
@@ -51,7 +53,6 @@ class WP_CLI_Clone_Command {
             }
         } else {
             WP_CLI::error("No tables found");
-            return;
         }
 
         // Fix user roles option name
