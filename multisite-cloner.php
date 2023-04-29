@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Multisite Cloner
- * Description: A minimal WordPress plugin that provides a single WP-CLI command.
+ * Description: WP-CLI only plugin for cloning sites within multisite WordPress
  * Version: 1.0
  * Author: Gregory Morozov
  * Author URI: https://github.com/negrusti
@@ -12,21 +12,12 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
     return;
 }
 
-/**
- * My WP-CLI Command class
- */
 class WP_CLI_Clone_Command {
 
-    /**
-     * A simple WP-CLI command
-     *
-     * @param array $args       Positional arguments.
-     * @param array $assoc_args Associative arguments.
-     */
     public function __invoke( $args, $assoc_args ) {
         
         if ( count( $args ) !== 2 || ! ctype_digit( $args[0] ) || ! ctype_digit( $args[1] ) ) {
-            WP_CLI::error( 'Please provide exactly two integer arguments.' );
+            WP_CLI::error( 'Please provide two integer arguments.' );
             return;
         }        
 
@@ -67,9 +58,10 @@ class WP_CLI_Clone_Command {
         WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
         
         $upload_data = wp_get_upload_dir();
-        WP_CLI::log("Copying files from " . $upload_data['basedir']);
+        WP_CLI::log("Copying site files");
         self::recurseCopy($upload_data['basedir'] . "/sites/" . $args[0], $upload_data['basedir'] . "/sites/" . $args[1]);
         
+        WP_CLI::runcommand("cache flush");        
         WP_CLI::success("Clone completed!");
     }
     
