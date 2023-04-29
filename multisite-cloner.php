@@ -87,4 +87,4 @@ class WP_CLI_Clone_Command {
     }
 }
 
-WP_CLI::add_command( 'clone', 'WP_CLI_Clone_Command' );
+WP_CLI::add_command( 'site clone', 'WP_CLI_Clone_Command' );
