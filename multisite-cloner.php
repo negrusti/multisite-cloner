@@ -38,11 +38,11 @@ class WP_CLI_Clone_Command {
         $source_site_details = get_blog_details($args[0]);
         $target_site_details = get_blog_details($args[1]);
 
-        WP_CLI::log($source_prefix . "->" . $target_prefix);
-        WP_CLI::log("Cloning " . $source_site_details->siteurl . " to " . $target_site_details->siteurl);
+        WP_CLI::log("Cloning tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
         
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
+            return;
         }
 
         $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
@@ -51,19 +51,20 @@ class WP_CLI_Clone_Command {
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
                 $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0]);
-                WP_CLI::log("Source table: " . $source_table[0] . " Destination table: " . $destination_table);
+                WP_CLI::log("Source table: " . $source_table[0] . "=> Destination table: " . $destination_table);
 
-
-                //$wpdb->query( "DROP TABLE $destination_table" );
-                //$wpdb->query( "CREATE TABLE $destination_table LIKE $source_table[0]" );
-                //$wpdb->query( "INSERT $destination_table SELECT * FROM $source_table[0]" );
+                $wpdb->query( "DROP TABLE $destination_table" );
+                $wpdb->query( "CREATE TABLE $destination_table LIKE $source_table[0]" );
+                $wpdb->query( "INSERT INTO $destination_table SELECT * FROM $source_table[0]" );
 
             }
         } else {
             WP_CLI::error("No tables found");
+            return;
         }
 
-        //WP_CLI::run_command(['search-replace', $source_site_details->siteurl, $target_site_details->siteurl, $target_prefix . "*"]);
+        WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
+        WP_CLI::run_command(['search-replace', $source_site_details->siteurl, $target_site_details->siteurl, $target_prefix . "*"]);
         WP_CLI::success( 'Clone completed!' );
     }
 }
