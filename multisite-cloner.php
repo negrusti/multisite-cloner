@@ -32,11 +32,11 @@ class WP_CLI_Clone_Command {
 
         global $wpdb;
         
-        $source_prefix = $wpdb->prefix . "_" . $source_site_id . "_";
-        $target_prefix = $wpdb->prefix . "_" . $target_site_id . "_";
+        $source_prefix = $wpdb->prefix . "_" . $args[0] . "_";
+        $target_prefix = $wpdb->prefix . "_" . $args[1] . "_";
 
-        $source_site_details = get_blog_details($source_site_id);
-        $target_site_details = get_blog_details($target_site_id);
+        $source_site_details = get_blog_details($args[0]);
+        $target_site_details = get_blog_details($args[1]);
 
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
