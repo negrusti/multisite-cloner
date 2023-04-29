@@ -45,7 +45,7 @@ class WP_CLI_Clone_Command {
 
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
-                $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0])
+                $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0]);
                 WP_CLI::log("Source table: " . $source_table[0] . " Destination table: " . $destination_table);
 
 
