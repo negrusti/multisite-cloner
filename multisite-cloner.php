@@ -23,7 +23,7 @@ class WP_CLI_Clone_Command {
      * @param array $args       Positional arguments.
      * @param array $assoc_args Associative arguments.
      */
-    public function clone( $args, $assoc_args ) {
+    public function __invoke( $args, $assoc_args ) {
         
         if ( count( $args ) !== 2 || ! ctype_digit( $args[0] ) || ! ctype_digit( $args[1] ) ) {
             WP_CLI::error( 'Please provide exactly two integer arguments.' );
@@ -45,21 +45,21 @@ class WP_CLI_Clone_Command {
 
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
-                WP_CLI::log("Table: " . $source_table[0]);
-
                 $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0])
-                $wpdb->query( "DROP TABLE $destination_table" );
-                $wpdb->query( "CREATE TABLE $destination_table LIKE $source_table[0]" );
-                $wpdb->query( "INSERT $destination_table SELECT * FROM $source_table[0]" );
+                WP_CLI::log("Source table: " . $source_table[0] . " Destination table: " . $destination_table);
+
+
+                //$wpdb->query( "DROP TABLE $destination_table" );
+                //$wpdb->query( "CREATE TABLE $destination_table LIKE $source_table[0]" );
+                //$wpdb->query( "INSERT $destination_table SELECT * FROM $source_table[0]" );
 
             }
         } else {
             WP_CLI::error("No tables found");
         }
 
-        WP_CLI::run_command(['search-replace', $source_site_details->siteurl, $target_site_details->siteurl, $target_prefix . "*"]);
-
-        WP_CLI::success( 'Hello, this is my WP-CLI command!' );
+        //WP_CLI::run_command(['search-replace', $source_site_details->siteurl, $target_site_details->siteurl, $target_prefix . "*"]);
+        WP_CLI::success( 'Clone completed!' );
     }
 }
 
