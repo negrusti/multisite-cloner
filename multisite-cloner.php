@@ -64,8 +64,29 @@ class WP_CLI_Clone_Command {
         }
 
         WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
-        WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl --network --all-tables-with-prefix $target_prefix");
-        WP_CLI::success( 'Clone completed!' );
+        //WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
+        
+        $upload_data = wp_get_upload_dir();
+        WP_CLI::log("Copying files from " . $upload_data->basedir);
+        
+        WP_CLI::success("Clone completed!");
+    }
+    
+    function recurseCopy($src, $dst) {
+        $dir = opendir($src);
+        @mkdir($dst);
+
+        while (($file = readdir($dir)) !== false) {
+            if ($file != '.' && $file != '..') {
+                if (is_dir($src . '/' . $file)) {
+                    recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                } else {
+                    copy($src . '/' . $file, $dst . '/' . $file);
+                }
+            }
+        }
+
+        closedir($dir);
     }
 }
 
