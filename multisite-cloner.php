@@ -80,7 +80,7 @@ class WP_CLI_Clone_Command {
         while (($file = readdir($dir)) !== false) {
             if ($file != '.' && $file != '..') {
                 if (is_dir($src . '/' . $file)) {
-                    recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     copy($src . '/' . $file, $dst . '/' . $file);
                 }
