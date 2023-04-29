@@ -64,7 +64,7 @@ class WP_CLI_Clone_Command {
         }
 
         WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
-        //WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
+        WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
         
         $upload_data = wp_get_upload_dir();
         WP_CLI::log("Copying files from " . $upload_data['basedir']);
