@@ -37,7 +37,7 @@ class WP_CLI_Clone_Command {
         $target_site_details = get_blog_details($target_site_id);
 
         if(!$source_site_details || !$target_site_details) {
-            WP_CLI::error("Site does not exist")
+            WP_CLI::error("Site does not exist");
         }
 
         $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $table_mask);
