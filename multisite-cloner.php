@@ -44,12 +44,12 @@ class WP_CLI_Clone_Command {
         $source_site_details = get_blog_details($args[0]);
         $target_site_details = get_blog_details($args[1]);
 
-        WP_CLI::log("Cloning tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
-        
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
         }
 
+        WP_CLI::log("Cloning tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
+        
         $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
         $source_tables = $wpdb->get_results($sql, ARRAY_N);
 
