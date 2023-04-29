@@ -1,7 +1,8 @@
 # multisite-cloner
 
 This plugin allows cloning of the sites in a Multisite WordPress installation via WP-CLI command.
-*Disclaimer - use at your own risk! Backup your database first and make sure you are selecting the correct target site ID - the target site contents will be completely overwritten without any requests for confirmation.*
+
+**Disclaimer - use at your own risk! Backup your database first and make sure you are selecting the correct target site ID - the target site contents will be completely overwritten without any requests for confirmation.**
 
 ## Prerequisites
 
