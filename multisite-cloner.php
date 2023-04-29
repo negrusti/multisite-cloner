@@ -68,6 +68,7 @@ class WP_CLI_Clone_Command {
         
         $upload_data = wp_get_upload_dir();
         WP_CLI::log("Copying files from " . $upload_data['basedir']);
+        self::recurseCopy($upload_data . "/sites/" . arg[0], $upload_data . "/sites/" . arg[1]);
         
         WP_CLI::success("Clone completed!");
     }
