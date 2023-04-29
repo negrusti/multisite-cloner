@@ -38,6 +38,8 @@ class WP_CLI_Clone_Command {
         $source_site_details = get_blog_details($args[0]);
         $target_site_details = get_blog_details($args[1]);
 
+        WP_CLI::log("Cloning . $source_site_details->siteurl . " to " . $target_site_details->siteurl);
+        
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
         }
