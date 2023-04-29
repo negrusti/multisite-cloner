@@ -30,6 +30,8 @@ class WP_CLI_Clone_Command {
             return;
         }        
 
+        global $wpdb;
+        
         $source_prefix = $wpdb->prefix . "_" . $source_site_id . "_";
         $target_prefix = $wpdb->prefix . "_" . $target_site_id . "_";
 
