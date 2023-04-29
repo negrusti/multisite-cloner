@@ -64,7 +64,7 @@ class WP_CLI_Clone_Command {
         }
 
         WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
-        WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl --all-tables-with-prefix $target_prefix");
+        WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl --network --all-tables-with-prefix $target_prefix");
         WP_CLI::success( 'Clone completed!' );
     }
 }
