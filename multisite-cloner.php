@@ -44,7 +44,7 @@ class WP_CLI_Clone_Command {
             WP_CLI::error("Site does not exist");
         }
 
-        $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix);
+        $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
         $source_tables = $wpdb->get_results($sql, ARRAY_N);
 
         if (!empty($source_tables)) {
