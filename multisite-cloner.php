@@ -15,7 +15,7 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 class WP_CLI_Clone_Command {
 
     /**
-    * Clone one site to another
+    * Clone one site to another.
     *
     * ## OPTIONS
     *
