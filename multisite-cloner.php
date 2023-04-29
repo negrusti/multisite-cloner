@@ -14,6 +14,18 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 
 class WP_CLI_Clone_Command {
 
+    /**
+    * Clone one site to another
+    *
+    * ## OPTIONS
+    *
+    * <source ID>
+    * : Source site ID
+    *
+    * <target ID>
+    * : Target site ID
+    */
+    
     public function __invoke( $args, $assoc_args ) {
         
         if ( ! is_multisite() ) {
