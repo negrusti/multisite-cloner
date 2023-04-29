@@ -32,8 +32,8 @@ class WP_CLI_Clone_Command {
 
         global $wpdb;
         
-        $source_prefix = $wpdb->prefix . "_" . $args[0] . "_";
-        $target_prefix = $wpdb->prefix . "_" . $args[1] . "_";
+        $source_prefix = $wpdb->prefix . $args[0] . "_";
+        $target_prefix = $wpdb->prefix . $args[1] . "_";
 
         $source_site_details = get_blog_details($args[0]);
         $target_site_details = get_blog_details($args[1]);
