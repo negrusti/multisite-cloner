@@ -33,7 +33,7 @@ Paid support is available: wordpress@fastserver.io
 
 = Why no GUI? =
 
-This plugin is designed to clone large sites (several GBs of MySQL tables) on busy prodiction servers with strict PHP execution time limits. It is quite difficult to make a GUI version for such cases.
+This plugin is designed to clone large sites (several GBs of MySQL tables) on busy production servers with strict PHP execution time limits. It is quite difficult to make a GUI version for such cases.
 
 = Will it work on a shared hosting? =
 
