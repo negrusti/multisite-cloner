@@ -8,28 +8,26 @@ Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+This plugin allows cloning of the sites in a Multisite WordPress installation via WP-CLI command.
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+**Disclaimer: use at your own risk! Backup your database first and make sure you are selecting the correct target site ID - the target site contents will be completely overwritten without any requests for confirmation.**
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+## Prerequisites
 
-A few notes about the sections above:
+WP-CLI installed, SSH access
 
-* "Contributors" is a comma separated list of wordpress.org usernames
-* "Tags" is a comma separated list of tags that apply to the plugin
-* "Requires at least" is the lowest version that the plugin will work on
-* "Tested up to" is the highest version that you've *successfully used to test the plugin*
-* Stable tag must indicate the Subversion "tag" of the latest stable version
+## Usage
 
-Note that the `readme.txt` value of stable tag is the one that is the defining one for the plugin.  If the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used for displaying information about the plugin.
+1. Install and activate the plugin. There is no GUI
+1. Create a fresh site via usual WordPress means
+2. With WP-CLI list the sites of the multisite: `wp site list`, note the IDs of the source site and the new site that you have created
+3. Run the clone command: `wp site clone <source site ID> <target site ID>`
 
-If you develop in trunk, you can update the trunk `readme.txt` to reflect changes in your in-development version, without having that information incorrectly disclosed about the current stable version that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+## Support
 
-If no stable tag is provided, your users may not get the correct version of your code.
+Paid support is available: wordpress@fastserver.io
 
 == Changelog ==
 
