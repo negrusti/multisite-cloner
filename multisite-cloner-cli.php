@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Multisite Cloner
+ * Plugin Name: Multisite Cloner CLI
  * Description: WP-CLI only plugin for cloning sites within multisite WordPress
  * Version: 1.0
  * Author: Gregory Morozov
