@@ -8,9 +8,7 @@
  */
 
 // Check if WP-CLI is active
-if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
-    return;
-}
+if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) return;
 
 class WP_CLI_Clone_Command {
 
