@@ -1,6 +1,6 @@
-=== Multisite Cloner ===
+=== Multisite Cloner CLI ===
 Contributors: negrusti
-Tags: multisite, clone
+Tags: multisite, clone, cli, wp-cli
 Requires at least: 4.7
 Tested up to: 6.1.1
 Stable tag: 1.0
@@ -28,6 +28,16 @@ WP-CLI installed, SSH access
 ## Support
 
 Paid support is available: wordpress@fastserver.io
+
+== Frequently Asked Questions ==
+
+= Why no GUI? =
+
+This plugin is designed to clone large sites (several GBs of MySQL tables) on busy prodiction servers with strict PHP execution time limits. It is quite difficult to make a GUI version for such cases.
+
+= Will it work on a shared hosting? =
+
+Yes it will if the hosting provider allows unprivileged SSH access.
 
 == Changelog ==
 
