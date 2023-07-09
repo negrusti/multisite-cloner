@@ -52,7 +52,9 @@ class WP_CLI_Clone_Command {
 
         WP_CLI::log("Cloning tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
         
-        $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
+        $sql = $wpdb->prepare("SHOW TABLES WHERE REGEXP_LIKE(TABLE_NAME, %s) AND NOT REGEXP_LIKE(TABLE_NAME, %s)", 
+                              "_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$", 
+                              "^" . $source_prefix . "[^0-9].*");
         $source_tables = $wpdb->get_results($sql, ARRAY_N);
 
         if (!empty($source_tables)) {
