@@ -76,7 +76,7 @@ class WP_CLI_Clone_Command {
             WP_CLI::error("No tables found");
         }
 
-        if ( isset( $assoc_args['dry-run'] ) ) WP_CLI::success("Dry run completed!");
+        if ( isset( $assoc_args['dry-run'] ) ) WP_CLI::error("Dry run completed!");
         // Fix user roles option name
         $wpdb->query("UPDATE " . $target_prefix . "options SET option_name = '" . $target_prefix . "user_roles' WHERE option_name = '" . $source_prefix . "user_roles'");
         
