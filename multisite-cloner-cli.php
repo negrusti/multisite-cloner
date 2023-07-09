@@ -23,6 +23,9 @@ class WP_CLI_Clone_Command {
     * <target_ID>
     * : Target site ID
     *
+    * [--force-https]
+    * : Force https on the target URLs
+    *
     * [--dry-run]
     * : Run the command without actually doing anything.
     */
@@ -40,6 +43,10 @@ class WP_CLI_Clone_Command {
         if ( $args[0] == $args[1] ) {
             WP_CLI::error( "Can't clone the site to itself." );
         }
+
+        if ( $args[1] == "1" ) {
+            WP_CLI::error( "Target site ID = 1 is not supported yet." );
+        }
         
         global $wpdb;
         
@@ -50,6 +57,10 @@ class WP_CLI_Clone_Command {
         $source_site_details = get_blog_details($args[0]);
         $target_site_details = get_blog_details($args[1]);
 
+        if ( isset( $assoc_args['force-https'] ) ) {
+            preg_replace("/http:/", "https:", $target_site_details->siteurl);
+        }
+        
         if(!$source_site_details || !$target_site_details) {
             WP_CLI::error("Site does not exist");
         }
@@ -101,8 +112,9 @@ class WP_CLI_Clone_Command {
 
         while (($file = readdir($dir)) !== false) {
             if ($file != '.' && $file != '..') {
-                // sites directory is a special case for site ID = 1 and must be skipped
-                if (is_dir($src . '/' . $file && $file != 'sites')) {
+                if (is_dir($src . '/' . $file)) {
+                    // sites directory is a special case for site ID = 1 and must be skipped
+                    if ($file == 'sites') continue;
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     copy($src . '/' . $file, $dst . '/' . $file);
