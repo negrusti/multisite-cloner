@@ -58,7 +58,7 @@ class WP_CLI_Clone_Command {
         $target_site_details = get_blog_details($args[1]);
 
         if ( isset( $assoc_args['force-https'] ) ) {
-            preg_replace("/http:/", "https:", $target_site_details->siteurl);
+            $target_site_details->siteurl = str_replace("http:", "https:", $target_site_details->siteurl);
         }
         
         if(!$source_site_details || !$target_site_details) {
