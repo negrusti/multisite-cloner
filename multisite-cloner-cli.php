@@ -22,6 +22,9 @@ class WP_CLI_Clone_Command {
     *
     * <target_ID>
     * : Target site ID
+    *
+    * [--dry-run]
+    * : Run the command without actually doing anything.
     */
     
     public function __invoke( $args, $assoc_args ) {
