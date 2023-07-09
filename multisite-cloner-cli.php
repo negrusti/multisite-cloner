@@ -34,6 +34,10 @@ class WP_CLI_Clone_Command {
             WP_CLI::error( 'Please provide two integer arguments.' );
         }        
 
+        if ( $args[0] == $args[1] ) {
+            WP_CLI::error( "Can't clone the site to itself." );
+        }
+        
         global $wpdb;
         
         $source_prefix = $wpdb->prefix . $args[0] . "_";
