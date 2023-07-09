@@ -43,6 +43,7 @@ class WP_CLI_Clone_Command {
         
         global $wpdb;
         
+        // tables for site ID = 1 do not have a numeric part of the prefix
         $source_prefix = ( $args[0] == "1" ) ? $wpdb->prefix : $wpdb->prefix . $args[0] . "_";
         $target_prefix = ( $args[1] == "1" ) ? $wpdb->prefix : $wpdb->prefix . $args[1] . "_";
 
@@ -61,6 +62,7 @@ class WP_CLI_Clone_Command {
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
 
+                // Skipping global tables of a multisite
                 if ( $args[0] == "1" && preg_match("/_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$/", $source_table[0] )) continue;
                 if ( $args[0] == "1" && preg_match("/^" . $source_prefix . "[0-9].*/", $source_table[0] )) continue;
                 
@@ -85,8 +87,10 @@ class WP_CLI_Clone_Command {
         
         $upload_data = wp_get_upload_dir();
         WP_CLI::log("Copying site files");
-        self::recurseCopy($upload_data['basedir'] . "/sites/" . $args[0], $upload_data['basedir'] . "/sites/" . $args[1]);
         
+        self::recurseCopy($upload_data['basedir'] . (($args[0] == "1") ? "" : "/sites/" . $args[0]),
+                          $upload_data['basedir'] . (($args[1] == "1") ? "" : "/sites/" . $args[1]));
+
         WP_CLI::runcommand("cache flush");        
         WP_CLI::success("Clone completed!");
     }
@@ -97,7 +101,8 @@ class WP_CLI_Clone_Command {
 
         while (($file = readdir($dir)) !== false) {
             if ($file != '.' && $file != '..') {
-                if (is_dir($src . '/' . $file)) {
+                // sites directory is a special case for site ID = 1 and must be skipped
+                if (is_dir($src . '/' . $file && $file != 'sites')) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     copy($src . '/' . $file, $dst . '/' . $file);
