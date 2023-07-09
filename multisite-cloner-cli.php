@@ -61,8 +61,8 @@ class WP_CLI_Clone_Command {
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
 
-                if ( $args[0] == "1" && preg_match($source_table[0], "/_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$/")) continue;
-                if ( $args[0] == "1" && preg_match($source_table[0], "/^" . $source_prefix . "[0-9].*/")) continue;
+                if ( $args[0] == "1" && preg_match("/_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$/", $source_table[0] )) continue;
+                if ( $args[0] == "1" && preg_match("/^" . $source_prefix . "[0-9].*/", $source_table[0] )) continue;
                 
                 $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0]);
                 WP_CLI::log("Source table: " . $source_table[0] . " => Destination table: " . $destination_table);
