@@ -52,25 +52,28 @@ class WP_CLI_Clone_Command {
 
         WP_CLI::log("Cloning tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
         
-        $sql = $wpdb->prepare("SHOW TABLES WHERE REGEXP_LIKE(TABLE_NAME, %s) AND NOT REGEXP_LIKE(TABLE_NAME, %s)", 
-                              "_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$", 
-                              "^" . $source_prefix . "[^0-9].*");
+        $sql = $wpdb->prepare("SHOW TABLES LIKE %s", $source_prefix . "%");
         $source_tables = $wpdb->get_results($sql, ARRAY_N);
 
         if (!empty($source_tables)) {
             foreach($source_tables as $source_table) {
+
+                if ( $args[0] == "1" && preg_match($source_table[0], "/_(blogs|blog_versions|registration_log|site|sitemeta|signups|users|usermeta)$/")) continue;
+                if ( $args[0] == "1" && preg_match($source_table[0], "/^" . $source_prefix . "[0-9].*/")) continue;
+                
                 $destination_table = str_replace($source_prefix, $target_prefix, $source_table[0]);
                 WP_CLI::log("Source table: " . $source_table[0] . " => Destination table: " . $destination_table);
 
+                if ( isset( $assoc_args['dry-run'] ) ) continue;
                 $wpdb->query( "DROP TABLE IF EXISTS $destination_table" );
                 $wpdb->query( "CREATE TABLE $destination_table LIKE $source_table[0]" );
                 $wpdb->query( "INSERT INTO $destination_table SELECT * FROM $source_table[0]" );
-
             }
         } else {
             WP_CLI::error("No tables found");
         }
 
+        if ( isset( $assoc_args['dry-run'] ) ) WP_CLI::success("Dry run completed!");
         // Fix user roles option name
         $wpdb->query("UPDATE " . $target_prefix . "options SET option_name = '" . $target_prefix . "user_roles' WHERE option_name = '" . $source_prefix . "user_roles'");
         
