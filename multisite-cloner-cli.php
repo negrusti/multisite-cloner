@@ -26,6 +26,9 @@ class WP_CLI_Clone_Command {
     * [--force-https]
     * : Force https on the target URLs
     *
+    * [--skip-replace]
+    * : Skip search/replace on the target URLs. Useful for cross-linked sites
+    *
     * [--dry-run]
     * : Run the command without actually doing anything.
     */
@@ -92,10 +95,14 @@ class WP_CLI_Clone_Command {
         if ( isset( $assoc_args['dry-run'] ) ) WP_CLI::error("Dry run completed!");
         // Fix user roles option name
         $wpdb->query("UPDATE " . $target_prefix . "options SET option_name = '" . $target_prefix . "user_roles' WHERE option_name = '" . $source_prefix . "user_roles'");
+
+        $wpdb->query("UPDATE " . $target_prefix . "options SET option_value = '" . $target_site_details->siteurl . "' WHERE option_name = 'home' OR option_name = 'siteurl'");
         
-        WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
-        WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
-        
+        if ( !isset( $assoc_args['skip-replace'] ) ) {
+            WP_CLI::log("Replacing URLs in the target site tables: " . $source_site_details->siteurl . " => " . $target_site_details->siteurl);
+            WP_CLI::runcommand("search-replace $source_site_details->siteurl $target_site_details->siteurl $target_prefix* --network");
+        }
+            
         $upload_data = wp_get_upload_dir();
         WP_CLI::log("Copying site files");
         
